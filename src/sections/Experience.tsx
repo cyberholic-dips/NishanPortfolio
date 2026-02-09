@@ -14,6 +14,7 @@ interface ExperienceItem {
   period: string;
   description: string;
   achievements: string[];
+  color: string;
 }
 
 const experiences: ExperienceItem[] = [
@@ -31,6 +32,7 @@ const experiences: ExperienceItem[] = [
       'Ensured proper installation standards and system efficiency',
       'Collaborated with management and field teams on project planning and execution',
     ],
+    color: 'bg-emerald-500',
   },
   {
     id: 2,
@@ -46,6 +48,7 @@ const experiences: ExperienceItem[] = [
       'Guided students on projects and technical assignments',
       'Assessed student performance and provided academic mentoring',
     ],
+    color: 'bg-blue-500',
   },
   {
     id: 3,
@@ -60,6 +63,7 @@ const experiences: ExperienceItem[] = [
       'Learned manufacturing processes and quality control',
       'Collaborated with engineering team on industrial projects',
     ],
+    color: 'bg-indigo-500',
   },
   {
     id: 4,
@@ -74,6 +78,7 @@ const experiences: ExperienceItem[] = [
       'Assisted in vehicle diagnostics and maintenance',
       'Gained practical knowledge of automotive engineering',
     ],
+    color: 'bg-violet-500',
   },
   {
     id: 5,
@@ -88,6 +93,7 @@ const experiences: ExperienceItem[] = [
       'Collaborative research projects',
       'Profile: researchgate.net/profile/Nishan-Parajuli-2',
     ],
+    color: 'bg-cyan-500',
   },
   {
     id: 6,
@@ -102,6 +108,7 @@ const experiences: ExperienceItem[] = [
       'ANSYS for finite element analysis',
       'Hands-on project-based learning',
     ],
+    color: 'bg-amber-500',
   },
   {
     id: 7,
@@ -116,6 +123,7 @@ const experiences: ExperienceItem[] = [
       'Completed industrial and automotive internships',
       'Trained in CATIA and ANSYS software',
     ],
+    color: 'bg-orange-500',
   },
   {
     id: 8,
@@ -130,6 +138,7 @@ const experiences: ExperienceItem[] = [
       'Focus on Physics, Chemistry, and Mathematics',
       'Prepared for engineering entrance examinations',
     ],
+    color: 'bg-rose-500',
   },
 ];
 
@@ -139,17 +148,8 @@ const typeIcons = {
   research: FlaskConical,
 };
 
-const typeColors = {
-  work: 'bg-primary',
-  education: 'bg-accent',
-  research: 'bg-purple-500',
-};
-
-const typeLabels = {
-  work: 'Work Experience',
-  education: 'Education',
-  research: 'Research',
-};
+const workExperiences = experiences.filter((exp) => exp.type === 'work' || exp.type === 'research');
+const educationExperiences = experiences.filter((exp) => exp.type === 'education');
 
 export default function Experience() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -233,122 +233,155 @@ export default function Experience() {
         </div>
 
         {/* Timeline */}
-        <div ref={timelineRef} className="relative">
-          {/* Center Line - Desktop */}
-          <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-border -translate-x-1/2">
-            <div className="timeline-line absolute inset-0 bg-gradient-to-b from-primary via-accent to-primary origin-top" />
+        <div ref={timelineRef} className="relative grid lg:grid-cols-2 gap-8 lg:gap-16">
+          {/* Work Experience Column */}
+          <div className="relative space-y-8 lg:space-y-12">
+            <h3 className="text-2xl font-serif font-bold text-foreground text-center lg:text-right mb-8">Work Experience</h3>
+            {workExperiences.map((exp) => {
+              const Icon = typeIcons[exp.type];
+              return (
+                <div key={exp.id} className="timeline-item relative flex flex-col lg:items-end">
+                  {/* Connector Line to Center (Desktop) */}
+                  <div className="hidden lg:block absolute top-[28px] right-[-40px] w-[40px] h-[2px]" style={{ backgroundColor: `rgb(var(--color-${exp.color.replace('bg-', '')}))` }}>
+                    {/* Connector line using CSS variable for color matching */}
+                  </div>
+
+                  {/* Card */}
+                  <div className="bg-card border border-border rounded-xl p-6 card-hover w-full lg:w-[90%] relative group">
+                    {/* Colored border left/right accent */}
+                    <div className={`absolute top-0 bottom-0 left-0 w-1 rounded-l-xl ${exp.color} lg:left-auto lg:right-0 lg:rounded-l-none lg:rounded-r-xl`} />
+
+                    <div className="flex items-start gap-4 mb-4 lg:flex-row-reverse">
+                      <div
+                        className={`w-10 h-10 rounded-lg ${exp.color} flex items-center justify-center flex-shrink-0 shadow-lg`}
+                      >
+                        <Icon className="w-5 h-5 text-white" />
+                      </div>
+                      <div className="flex-1 lg:text-right">
+                        <span
+                          className={`inline-block px-2 py-0.5 rounded text-xs font-medium mb-1 ${exp.color} bg-opacity-10 text-opacity-100`}
+                          style={{ color: 'inherit' }} // This might need better handling for text color contrast, but let's try using the class directly on text
+                        >
+                          {/* We need text color matching the bg. Let's strict to simple badge style for now */}
+                          <span className={exp.color.replace('bg-', 'text-')}>{(exp.type === 'work' ? 'Work' : 'Research')}</span>
+                        </span>
+                        <h3 className="font-serif text-lg font-semibold text-foreground">
+                          {exp.title}
+                        </h3>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-3 mb-3 text-sm lg:justify-end">
+                      <span className="font-medium text-foreground">
+                        {exp.organization}
+                      </span>
+                      <span className="text-muted-foreground">•</span>
+                      <span className="text-muted-foreground flex items-center gap-1">
+                        <MapPin className="w-3 h-3" />
+                        {exp.location}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3 lg:justify-end">
+                      <Calendar className="w-4 h-4" />
+                      {exp.period}
+                    </div>
+
+                    <p className="text-muted-foreground text-sm mb-4 lg:text-right">
+                      {exp.description}
+                    </p>
+
+                    <ul className="space-y-1 lg:text-right">
+                      {exp.achievements.map((achievement, i) => (
+                        <li key={i} className="text-sm text-muted-foreground flex items-start gap-2 lg:flex-row-reverse">
+                          <span className={`w-1.5 h-1.5 rounded-full ${exp.color} mt-2 flex-shrink-0`} />
+                          {achievement}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Center Dot (Desktop) */}
+                  <div className={`hidden lg:flex absolute top-6 -right-[40px] translate-x-1/2 z-10 w-4 h-4 rounded-full ${exp.color} border-4 border-background shadow-md`} />
+                </div>
+              );
+            })}
           </div>
 
-          {/* Timeline Items */}
-          <div className="space-y-8 lg:space-y-12">
-            {experiences.map((exp, index) => {
+          {/* Center Line (Desktop) */}
+          <div className="hidden lg:block absolute left-1/2 top-10 bottom-0 w-0.5 bg-border -translate-x-1/2">
+            <div className="timeline-line absolute inset-0 bg-gradient-to-b from-transparent via-primary to-transparent opacity-30" />
+          </div>
+
+          {/* Education Column */}
+          <div className="relative space-y-8 lg:space-y-12">
+            <h3 className="text-2xl font-serif font-bold text-foreground text-center lg:text-left mb-8">Education</h3>
+            {educationExperiences.map((exp) => {
               const Icon = typeIcons[exp.type];
-              const isLeft = index % 2 === 0;
-
               return (
-                <div
-                  key={exp.id}
-                  className={`timeline-item relative lg:grid lg:grid-cols-2 lg:gap-8 ${isLeft ? '' : 'lg:direction-rtl'
-                    }`}
-                >
-                  {/* Content */}
-                  <div
-                    className={`${isLeft ? 'lg:pr-12 lg:text-right' : 'lg:col-start-2 lg:pl-12'
-                      }`}
-                  >
-                    <div
-                      className={`bg-card border border-border rounded-xl p-6 card-hover ${isLeft ? 'lg:ml-auto' : ''
-                        }`}
-                    >
-                      {/* Header */}
+                <div key={exp.id} className="timeline-item relative flex flex-col lg:items-start transition-all">
+
+                  {/* Card */}
+                  <div className="bg-card border border-border rounded-xl p-6 card-hover w-full lg:w-[90%] relative group">
+                    {/* Colored border left accent */}
+                    <div className={`absolute top-0 bottom-0 left-0 w-1 rounded-l-xl ${exp.color}`} />
+
+                    <div className="flex items-start gap-4 mb-4">
                       <div
-                        className={`flex items-start gap-4 mb-4 ${isLeft ? 'lg:flex-row-reverse' : ''
-                          }`}
+                        className={`w-10 h-10 rounded-lg ${exp.color} flex items-center justify-center flex-shrink-0 shadow-lg`}
                       >
-                        <div
-                          className={`w-10 h-10 rounded-lg ${typeColors[exp.type]} flex items-center justify-center flex-shrink-0`}
+                        <Icon className="w-5 h-5 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <span
+                          className={`inline-block px-2 py-0.5 rounded text-xs font-medium mb-1`}
                         >
-                          <Icon className="w-5 h-5 text-white" />
-                        </div>
-                        <div className={isLeft ? 'lg:text-right' : ''}>
-                          <span
-                            className={`inline-block px-2 py-0.5 rounded text-xs font-medium mb-1 ${exp.type === 'work'
-                              ? 'bg-primary/10 text-primary'
-                              : exp.type === 'education'
-                                ? 'bg-accent/10 text-accent'
-                                : 'bg-purple-500/10 text-purple-500'
-                              }`}
-                          >
-                            {typeLabels[exp.type]}
-                          </span>
-                          <h3 className="font-serif text-lg font-semibold text-foreground">
-                            {exp.title}
-                          </h3>
-                        </div>
-                      </div>
-
-                      {/* Organization & Location */}
-                      <div
-                        className={`flex flex-wrap items-center gap-3 mb-3 text-sm ${isLeft ? 'lg:justify-end' : ''
-                          }`}
-                      >
-                        <span className="font-medium text-foreground">
-                          {exp.organization}
+                          <span className={exp.color.replace('bg-', 'text-')}>Education</span>
                         </span>
-                        <span className="text-muted-foreground">•</span>
-                        <span className="text-muted-foreground flex items-center gap-1">
-                          <MapPin className="w-3 h-3" />
-                          {exp.location}
-                        </span>
+                        <h3 className="font-serif text-lg font-semibold text-foreground">
+                          {exp.title}
+                        </h3>
                       </div>
-
-                      {/* Period */}
-                      <div
-                        className={`flex items-center gap-2 text-sm text-muted-foreground mb-3 ${isLeft ? 'lg:justify-end' : ''
-                          }`}
-                      >
-                        <Calendar className="w-4 h-4" />
-                        {exp.period}
-                      </div>
-
-                      {/* Description */}
-                      <p className="text-muted-foreground text-sm mb-4">
-                        {exp.description}
-                      </p>
-
-                      {/* Achievements */}
-                      <ul className={`space-y-1 ${isLeft ? 'lg:text-right' : ''}`}>
-                        {exp.achievements.map((achievement, i) => (
-                          <li
-                            key={i}
-                            className={`text-sm text-muted-foreground flex items-start gap-2 ${isLeft ? 'lg:flex-row-reverse' : ''
-                              }`}
-                          >
-                            <span className="w-1 h-1 rounded-full bg-primary mt-2 flex-shrink-0" />
-                            {achievement}
-                          </li>
-                        ))}
-                      </ul>
                     </div>
+
+                    <div className="flex flex-wrap items-center gap-3 mb-3 text-sm">
+                      <span className="font-medium text-foreground">
+                        {exp.organization}
+                      </span>
+                      <span className="text-muted-foreground">•</span>
+                      <span className="text-muted-foreground flex items-center gap-1">
+                        <MapPin className="w-3 h-3" />
+                        {exp.location}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+                      <Calendar className="w-4 h-4" />
+                      {exp.period}
+                    </div>
+
+                    <p className="text-muted-foreground text-sm mb-4">
+                      {exp.description}
+                    </p>
+
+                    <ul className="space-y-1">
+                      {exp.achievements.map((achievement, i) => (
+                        <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
+                          <span className={`w-1.5 h-1.5 rounded-full ${exp.color} mt-2 flex-shrink-0`} />
+                          {achievement}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
 
-                  {/* Center Dot - Desktop */}
-                  <div
-                    className={`hidden lg:flex absolute left-1/2 top-6 -translate-x-1/2 z-10`}
-                  >
-                    <div
-                      className={`w-4 h-4 rounded-full ${typeColors[exp.type]} border-4 border-background shadow-md`}
-                    />
-                  </div>
-
-                  {/* Empty space for alternating layout */}
-                  <div className={`hidden lg:block ${isLeft ? 'lg:col-start-2' : 'lg:col-start-1 lg:row-start-1'}`} />
+                  {/* Center Dot (Desktop) */}
+                  <div className={`hidden lg:flex absolute top-6 -left-[40px] -translate-x-1/2 z-10 w-4 h-4 rounded-full ${exp.color} border-4 border-background shadow-md`} />
                 </div>
               );
             })}
           </div>
         </div>
       </div>
-    </section>
+    </section >
   );
 }

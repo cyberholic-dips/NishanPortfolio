@@ -103,9 +103,9 @@ export default function Hero() {
       <div className="absolute bottom-32 left-10 w-24 h-24 border border-accent/20 rounded-lg -rotate-12 hidden lg:block animate-float animation-delay-200" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* Text Content */}
-          <div ref={textRef} className="order-2 lg:order-1 text-center lg:text-left">
+          <div ref={textRef} className="order-2 lg:order-1 lg:col-span-7 text-center lg:text-left">
             <div className="animate-item inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
               Available for opportunities
@@ -134,14 +134,16 @@ export default function Hero() {
                 <FolderOpen className="w-4 h-4 mr-2 transition-transform group-hover:scale-110" />
                 View Projects
               </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="group border-2 hover:bg-muted"
-              >
-                <Download className="w-4 h-4 mr-2 transition-transform group-hover:translate-y-0.5" />
-                Download Resume
-              </Button>
+              <a href="/resume.pdf" download="Nishan_Parajuli_Resume.pdf">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="group border-2 hover:bg-muted w-full sm:w-auto"
+                >
+                  <Download className="w-4 h-4 mr-2 transition-transform group-hover:translate-y-0.5" />
+                  Download Resume
+                </Button>
+              </a>
             </div>
 
             {/* Quick Stats */}
@@ -162,20 +164,20 @@ export default function Hero() {
           </div>
 
           {/* Image */}
-          <div ref={imageRef} className="order-1 lg:order-2 relative">
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
+          {/* Image */}
+          <div ref={imageRef} className="order-1 lg:order-2 lg:col-span-5 relative flex justify-center lg:justify-end">
+            <div className="relative w-full max-w-[400px] aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl ring-1 ring-border/50">
               <img
                 src="/hero-portrait.jpg"
                 alt="Nishan Parajuli - Mechanical Engineer"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-center scale-100 hover:scale-105 transition-transform duration-700"
               />
               {/* Overlay gradient */}
               <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
             </div>
 
             {/* Decorative elements */}
-            <div className="absolute -top-4 -right-4 w-24 h-24 border-t-2 border-r-2 border-primary/30 rounded-tr-2xl" />
-            <div className="absolute -bottom-4 -left-4 w-24 h-24 border-b-2 border-l-2 border-primary/30 rounded-bl-2xl" />
+            <div className="absolute top-[-20px] right-[20px] lg:right-0 w-full max-w-[400px] h-full border-2 border-primary/20 rounded-2xl -z-10 translate-x-4 -translate-y-4 hidden lg:block" />
 
             {/* Floating badge */}
             <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 lg:left-8 lg:translate-x-0 bg-card border border-border rounded-xl px-4 py-3 shadow-lg">

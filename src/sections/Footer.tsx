@@ -1,4 +1,4 @@
-import { Cpu, Heart, ArrowUp } from 'lucide-react';
+import { Heart, ArrowUp } from 'lucide-react';
 
 const navLinks = [
   { name: 'Home', href: '#hero' },
@@ -10,8 +10,7 @@ const navLinks = [
 ];
 
 const socialLinks = [
-  { name: 'LinkedIn', href: 'https://linkedin.com/in/nishanparajuli' },
-  { name: 'GitHub', href: 'https://github.com/nishanparajuli' },
+
   { name: 'ResearchGate', href: 'https://www.researchgate.net/profile/Nishan-Parajuli-2' },
 ];
 
@@ -39,9 +38,7 @@ export default function Footer() {
             {/* Brand */}
             <div className="lg:col-span-2">
               <a href="#hero" className="flex items-center gap-2 mb-4">
-                <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-                  <Cpu className="w-5 h-5 text-primary-foreground" />
-                </div>
+                <img src="/logo.png" alt="Logo" className="w-10 h-10 object-contain" />
                 <span className="font-serif text-xl font-semibold text-foreground">
                   Nishan Parajuli
                 </span>
@@ -98,10 +95,10 @@ export default function Footer() {
                     href="mailto:alex.chen@email.com"
                     className="hover:text-primary transition-colors"
                   >
-                    alex.chen@email.com
+                    n.parajuli584@gmail.com
                   </a>
                 </li>
-                <li>Palo Alto, CA</li>
+                <li>Urlabari,Morang</li>
                 <li className="pt-2">
                   <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 text-green-500 text-sm">
                     <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />

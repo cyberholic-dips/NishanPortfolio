@@ -92,135 +92,132 @@ export default function About() {
     <section
       id="about"
       ref={sectionRef}
-      className="py-24 lg:py-32 relative overflow-hidden"
+      className="py-16 lg:py-24 relative overflow-hidden"
     >
       {/* Background accent */}
       <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-primary/5 to-transparent pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-16 section-animate">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+        <div className="text-center mb-12 section-animate">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-3">
             About Me
           </span>
-          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-foreground mb-3">
             Engineering Excellence
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+          <p className="text-muted-foreground max-w-2xl mx-auto text-base">
             Combining technical expertise with creative problem-solving to deliver innovative mechanical solutions.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* Image Column */}
-          <div ref={imageRef} className="relative">
-            <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-xl">
+          <div ref={imageRef} className="lg:col-span-5 relative flex justify-center lg:justify-end">
+            <div className="relative w-full max-w-[350px] aspect-[3/4] rounded-2xl overflow-hidden shadow-xl ring-1 ring-border/50">
               <img
                 src="/about-portrait.jpg"
                 alt="Alex Chen at work"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-top scale-100 hover:scale-105 transition-transform duration-700"
               />
               {/* Technical overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
-
-              {/* Corner decorations */}
-              <div className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-primary/50" />
-              <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-primary/50" />
-              <div className="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-primary/50" />
-              <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-primary/50" />
             </div>
 
             {/* Floating stats card */}
-            <div className="absolute -bottom-6 -right-6 bg-card border border-border rounded-xl p-5 shadow-lg hidden lg:block">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <GraduationCap className="w-6 h-6 text-primary" />
+            <div className="absolute -bottom-6 right-8 bg-card border border-border rounded-xl p-4 shadow-lg hidden lg:block max-w-[200px]">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <GraduationCap className="w-5 h-5 text-primary" />
                 </div>
                 <div>
-                  <div className="font-serif text-2xl font-bold text-foreground">Bachelor</div>
-                  <div className="text-sm text-muted-foreground">Institute of Engineering, Purwanchal Campus</div>
+                  <div className="font-serif text-lg font-bold text-foreground">Bachelor</div>
+                  <div className="text-xs text-muted-foreground leading-tight">Institute of Engineering</div>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Content Column */}
-          <div ref={contentRef} className="space-y-8">
+          <div ref={contentRef} className="lg:col-span-7 space-y-6">
             {/* Professional Summary */}
             <div className="content-item">
-              <h3 className="font-serif text-xl font-semibold text-foreground mb-4">
+              <h3 className="font-serif text-lg font-semibold text-foreground mb-2">
                 Professional Summary
               </h3>
-              <p className="text-muted-foreground leading-relaxed mb-4">
+              <p className="text-muted-foreground leading-relaxed text-sm mb-2">
                 To succeed in an environment of growth and excellence and earn a job which provides me job
                 satisfaction and self-development and help me achieve personal as well as organizational goals.
               </p>
-              <p className="text-muted-foreground leading-relaxed">
+              <p className="text-muted-foreground leading-relaxed text-sm">
                 I specialize in CAD modeling with CATIA, finite element analysis with ANSYS, and mechanical design.
                 My goal is to create efficient, reliable mechanical solutions while continuously learning and
                 growing in the field of mechanical engineering.
               </p>
             </div>
 
-            {/* Education */}
-            <div className="content-item">
-              <h3 className="font-serif text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
-                <GraduationCap className="w-5 h-5 text-primary" />
-                Education
-              </h3>
-              <div className="space-y-4">
-                {education.map((edu, index) => (
-                  <div
-                    key={index}
-                    className="flex items-start gap-4 p-4 rounded-lg bg-muted/50 border border-border"
-                  >
-                    <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
-                    <div>
-                      <div className="font-medium text-foreground">{edu.degree}</div>
-                      <div className="text-sm text-muted-foreground">{edu.school}</div>
-                      <div className="text-xs text-muted-foreground/70">{edu.year} • {edu.division}</div>
+            <div className="grid sm:grid-cols-2 gap-6">
+              {/* Education */}
+              <div className="content-item">
+                <h3 className="font-serif text-lg font-semibold text-foreground mb-3 flex items-center gap-2">
+                  <GraduationCap className="w-4 h-4 text-primary" />
+                  Education
+                </h3>
+                <div className="space-y-3">
+                  {education.map((edu, index) => (
+                    <div
+                      key={index}
+                      className="p-3 rounded-lg bg-muted/30 border border-border/50 hover:border-primary/30 transition-colors"
+                    >
+                      <div className="font-medium text-foreground text-sm">{edu.degree}</div>
+                      <div className="text-xs text-muted-foreground mt-0.5">{edu.school}</div>
+                      <div className="text-[10px] text-muted-foreground/70 mt-1 uppercase tracking-wide font-medium">{edu.year} • {edu.division}</div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* Certifications */}
-            <div className="content-item">
-              <h3 className="font-serif text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
-                <Award className="w-5 h-5 text-primary" />
-                Certifications
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {certifications.map((cert, index) => (
-                  <span
-                    key={index}
-                    className="px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium"
-                  >
-                    {cert}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Key Interests */}
-            <div className="content-item">
-              <h3 className="font-serif text-xl font-semibold text-foreground mb-4">
-                Key Interests
-              </h3>
-              <div className="grid sm:grid-cols-3 gap-4">
-                {interests.map((interest, index) => (
-                  <div
-                    key={index}
-                    className="p-4 rounded-lg bg-card border border-border text-center group hover:border-primary/50 transition-colors"
-                  >
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mx-auto mb-3 group-hover:bg-primary/20 transition-colors">
-                      <interest.icon className="w-5 h-5 text-primary" />
-                    </div>
-                    <div className="font-medium text-foreground text-sm">{interest.label}</div>
-                    <div className="text-xs text-muted-foreground mt-1">{interest.desc}</div>
+              <div className="space-y-6">
+                {/* Certifications */}
+                <div className="content-item">
+                  <h3 className="font-serif text-lg font-semibold text-foreground mb-3 flex items-center gap-2">
+                    <Award className="w-4 h-4 text-primary" />
+                    Certifications
+                  </h3>
+                  <div className="flex flex-col gap-2">
+                    {certifications.map((cert, index) => (
+                      <div
+                        key={index}
+                        className="px-3 py-2 rounded-lg bg-primary/5 text-primary text-xs font-medium border border-primary/10"
+                      >
+                        {cert}
+                      </div>
+                    ))}
                   </div>
-                ))}
+                </div>
+
+                {/* Key Interests */}
+                <div className="content-item">
+                  <h3 className="font-serif text-lg font-semibold text-foreground mb-3">
+                    Key Interests
+                  </h3>
+                  <div className="space-y-2">
+                    {interests.map((interest, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/50 transition-colors"
+                      >
+                        <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center flex-shrink-0">
+                          <interest.icon className="w-4 h-4 text-primary" />
+                        </div>
+                        <div>
+                          <div className="font-medium text-foreground text-sm leading-none">{interest.label}</div>
+                          <div className="text-[10px] text-muted-foreground mt-0.5">{interest.desc}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>

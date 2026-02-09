@@ -62,30 +62,6 @@ const projects: Project[] = [
     image: '/project-prototype.jpg',
     featured: false,
   },
-  {
-    id: 4,
-    title: 'Robotic Welding Cell',
-    category: 'Automation',
-    description: 'Designed and deployed a robotic welding cell for precision aerospace components.',
-    problem: 'Manual welding could not meet the precision and consistency requirements for aerospace parts.',
-    solution: 'Integrated 6-axis robot with custom fixtures, vision system, and adaptive welding parameters.',
-    outcome: 'Achieved 99.7% weld quality, 3x throughput increase, and zero defects in first 10,000 parts.',
-    tools: ['CATIA', 'RoboDK', 'Welding Simulation', 'Python'],
-    image: '/project-robotics.jpg',
-    featured: true,
-  },
-  {
-    id: 5,
-    title: 'CAD Collaboration Platform',
-    category: 'Software',
-    description: 'Developed a web-based platform for real-time CAD collaboration across distributed engineering teams.',
-    problem: 'Engineering teams struggled with version control and collaboration on complex CAD files.',
-    solution: 'Built a cloud-native platform with WebGL viewer, version control, and real-time annotation.',
-    outcome: 'Adopted by 200+ engineers, reduced design review time by 60%, and eliminated version conflicts.',
-    tools: ['Python', 'Three.js', 'AWS', 'MongoDB'],
-    image: '/project-cad.jpg',
-    featured: false,
-  },
 ];
 
 export default function Projects() {
@@ -170,7 +146,7 @@ export default function Projects() {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
-                
+
                 {/* Category Badge */}
                 <div className="absolute top-4 left-4">
                   <span className="px-3 py-1 rounded-full bg-primary/90 text-primary-foreground text-xs font-medium">

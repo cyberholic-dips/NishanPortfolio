@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Sun, Moon, Cpu } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface NavigationProps {
@@ -8,32 +9,40 @@ interface NavigationProps {
 }
 
 const navLinks = [
-  { name: 'Home', href: '#hero' },
-  { name: 'About', href: '#about' },
-  { name: 'Skills', href: '#skills' },
-  { name: 'Projects', href: '#projects' },
-  { name: 'Experience', href: '#experience' },
-  { name: 'Contact', href: '#contact' },
+  { name: 'Home', href: '/#hero' },
+  { name: 'About', href: '/#about' },
+  { name: 'Skills', href: '/#skills' },
+  { name: 'Projects', href: '/#projects' },
+  { name: 'Experience', href: '/#experience' },
+  { name: 'Contact', href: '/#contact' },
+  { name: 'Blog', href: '/blog' },
 ];
 
 export default function Navigation({ darkMode, toggleDarkMode }: NavigationProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
 
-      // Determine active section
-      const sections = navLinks.map((link) => link.href.slice(1));
-      for (const section of sections.reverse()) {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= 100) {
-            setActiveSection(section);
-            break;
+      // Only track active section on home page
+      if (location.pathname === '/') {
+        const sections = navLinks
+          .filter(link => link.href.startsWith('/#'))
+          .map((link) => link.href.replace('/#', ''));
+
+        for (const section of sections.reverse()) {
+          const element = document.getElementById(section);
+          if (element) {
+            const rect = element.getBoundingClientRect();
+            if (rect.top <= 100) {
+              setActiveSection(section);
+              break;
+            }
           }
         }
       }
@@ -41,14 +50,27 @@ export default function Navigation({ darkMode, toggleDarkMode }: NavigationProps
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [location.pathname]);
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  const handleNavigation = (href: string) => {
     setIsMobileMenuOpen(false);
+
+    if (href.startsWith('/#')) {
+      const targetId = href.replace('/#', '');
+      if (location.pathname !== '/') {
+        navigate('/');
+        // Wait for navigation then scroll
+        setTimeout(() => {
+          const element = document.getElementById(targetId);
+          if (element) element.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      } else {
+        const element = document.getElementById(targetId);
+        if (element) element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      navigate(href);
+    }
   };
 
   return (
@@ -63,16 +85,14 @@ export default function Navigation({ darkMode, toggleDarkMode }: NavigationProps
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <a
-              href="#hero"
+              href="/#hero"
               onClick={(e) => {
                 e.preventDefault();
-                scrollToSection('#hero');
+                handleNavigation('/#hero');
               }}
               className="flex items-center gap-2 group"
             >
-              <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center transition-transform group-hover:scale-110">
-                <Cpu className="w-5 h-5 text-primary-foreground" />
-              </div>
+              <img src="/logo.png" alt="Logo" className="w-10 h-10 object-contain transition-transform group-hover:scale-110" />
               <span className="font-serif text-lg font-semibold text-foreground hidden sm:block">
                 Nishan Parajuli
               </span>
@@ -80,25 +100,31 @@ export default function Navigation({ darkMode, toggleDarkMode }: NavigationProps
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-1">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollToSection(link.href);
-                  }}
-                  className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 relative ${activeSection === link.href.slice(1)
-                    ? 'text-primary'
-                    : 'text-muted-foreground hover:text-foreground'
-                    }`}
-                >
-                  {link.name}
-                  {activeSection === link.href.slice(1) && (
-                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary" />
-                  )}
-                </a>
-              ))}
+              {navLinks.map((link) => {
+                const isActive = link.href === '/blog'
+                  ? location.pathname.startsWith('/blog')
+                  : (location.pathname === '/' && activeSection === link.href.replace('/#', ''));
+
+                return (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavigation(link.href);
+                    }}
+                    className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 relative ${isActive
+                      ? 'text-primary'
+                      : 'text-muted-foreground hover:text-foreground'
+                      }`}
+                  >
+                    {link.name}
+                    {isActive && (
+                      <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary" />
+                    )}
+                  </a>
+                );
+              })}
             </div>
 
             {/* Right Side Actions */}
@@ -156,25 +182,31 @@ export default function Navigation({ darkMode, toggleDarkMode }: NavigationProps
             }`}
         >
           <div className="px-4 py-6 space-y-2">
-            {navLinks.map((link, index) => (
-              <a
-                key={link.name}
-                href={link.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection(link.href);
-                }}
-                className={`block px-4 py-3 text-lg font-medium rounded-lg transition-all duration-300 ${activeSection === link.href.slice(1)
-                  ? 'bg-primary/10 text-primary'
-                  : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-                  }`}
-                style={{
-                  animationDelay: `${index * 50}ms`,
-                }}
-              >
-                {link.name}
-              </a>
-            ))}
+            {navLinks.map((link, index) => {
+              const isActive = link.href === '/blog'
+                ? location.pathname.startsWith('/blog')
+                : (location.pathname === '/' && activeSection === link.href.replace('/#', ''));
+
+              return (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavigation(link.href);
+                  }}
+                  className={`block px-4 py-3 text-lg font-medium rounded-lg transition-all duration-300 ${isActive
+                    ? 'bg-primary/10 text-primary'
+                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                    }`}
+                  style={{
+                    animationDelay: `${index * 50}ms`,
+                  }}
+                >
+                  {link.name}
+                </a>
+              );
+            })}
           </div>
         </div>
       </div>
