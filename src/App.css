@@ -10,6 +10,7 @@ html {
   0% {
     transform: translateX(-100%);
   }
+
   100% {
     transform: translateX(100%);
   }
@@ -25,6 +26,7 @@ html {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  line-clamp: 2;
 }
 
 .line-clamp-3 {
@@ -32,6 +34,7 @@ html {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  line-clamp: 3;
 }
 
 /* RTL direction for alternating timeline */
@@ -39,7 +42,7 @@ html {
   direction: rtl;
 }
 
-.lg\:direction-rtl > * {
+.lg\:direction-rtl>* {
   direction: ltr;
 }
 
@@ -62,6 +65,7 @@ html {
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
@@ -82,6 +86,7 @@ textarea:focus-visible {
 
 /* Reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -122,9 +127,29 @@ textarea:focus-visible {
   .no-print {
     display: none !important;
   }
-  
+
   nav,
   footer {
     display: none !important;
   }
+}
+
+/* Designer Credit Styles */
+:root {
+  --text-light: hsl(var(--muted-foreground));
+  --primary-blue: hsl(var(--primary));
+}
+
+.designer-credit {
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+.designer-credit a {
+  color: var(--primary-blue);
+  font-weight: 600;
+}
+
+.designer-credit a:hover {
+  text-decoration: underline;
 }

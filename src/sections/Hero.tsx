@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { ArrowDown, Download, FolderOpen } from 'lucide-react';
+import { ArrowDown, Download, FolderOpen, Quote as QuoteIcon } from 'lucide-react';
+import { getQuote, type DailyQuote } from '../blog/storage';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 
 export default function Hero() {
@@ -8,6 +10,7 @@ export default function Hero() {
   const textRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const blueprintRef = useRef<SVGSVGElement>(null);
+  const [quote, setQuote] = useState<DailyQuote>(getQuote());
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -144,6 +147,20 @@ export default function Hero() {
                   Download Resume
                 </Button>
               </a>
+            </div>
+
+            {/* Quote of the Day Card */}
+            <div className="animate-item mt-12 mb-4 p-6 bg-card/50 backdrop-blur-sm border border-border/50 rounded-2xl relative overflow-hidden group hover:border-primary/30 transition-all duration-500 max-w-xl mx-auto lg:mx-0">
+              <div className="absolute top-0 right-0 p-4 opacity-[0.03] group-hover:opacity-[0.07] transition-opacity">
+                <QuoteIcon className="w-12 h-12" />
+              </div>
+              <p className="text-lg font-serif italic text-foreground/80 leading-relaxed mb-4">
+                "{quote.text}"
+              </p>
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-[1px] bg-primary/50" />
+                <span className="text-sm font-bold text-primary uppercase tracking-widest">{quote.author}</span>
+              </div>
             </div>
 
             {/* Quick Stats */}

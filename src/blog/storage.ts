@@ -31,6 +31,22 @@ export const deletePost = (id: string): void => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(filteredPosts));
 };
 
+const QUOTE_KEY = 'nishan_daily_quote';
+
+export interface DailyQuote {
+    text: string;
+    author: string;
+}
+
+export const getQuote = (): DailyQuote => {
+    const quote = localStorage.getItem(QUOTE_KEY);
+    return quote ? JSON.parse(quote) : { text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston Churchill" };
+};
+
+export const saveQuote = (quote: DailyQuote): void => {
+    localStorage.setItem(QUOTE_KEY, JSON.stringify(quote));
+};
+
 // Seed initial data if empty
 export const seedInitialData = () => {
     if (getPosts().length === 0) {

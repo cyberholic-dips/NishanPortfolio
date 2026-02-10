@@ -1,4 +1,4 @@
-import { Heart, ArrowUp } from 'lucide-react';
+import { Heart } from 'lucide-react';
 
 const navLinks = [
   { name: 'Home', href: '#hero' },
@@ -15,9 +15,6 @@ const socialLinks = [
 ];
 
 export default function Footer() {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
@@ -117,15 +114,14 @@ export default function Footer() {
             <Heart className="w-4 h-4 text-red-500 fill-red-500" /> using React & Tailwind
           </p>
 
-          <button
-            onClick={scrollToTop}
-            className="group flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
-          >
-            Back to top
-            <span className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-              <ArrowUp className="w-4 h-4" />
-            </span>
-          </button>
+          <div className="designer-credit">
+            <p>
+              Designed by{' '}
+              <a href="https://www.bhandaridipesh.com.np/" target="_blank" rel="noopener noreferrer">
+                Xurde
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     </footer>
