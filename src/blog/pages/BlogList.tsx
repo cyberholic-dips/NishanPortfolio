@@ -8,8 +8,12 @@ export default function BlogList() {
     const [posts, setPosts] = useState<BlogPost[]>([]);
 
     useEffect(() => {
-        seedInitialData();
-        setPosts(getPosts());
+        const loadPosts = async () => {
+            await seedInitialData();
+            const data = await getPosts();
+            setPosts(data);
+        };
+        loadPosts();
     }, []);
 
     return (

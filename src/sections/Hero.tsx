@@ -10,7 +10,15 @@ export default function Hero() {
   const textRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const blueprintRef = useRef<SVGSVGElement>(null);
-  const [quote, setQuote] = useState<DailyQuote>(getQuote());
+  const [quote, setQuote] = useState<DailyQuote>({ text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston Churchill" });
+
+  useEffect(() => {
+    const fetchQuote = async () => {
+      const q = await getQuote();
+      setQuote(q);
+    };
+    fetchQuote();
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {

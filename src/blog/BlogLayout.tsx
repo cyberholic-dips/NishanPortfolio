@@ -11,7 +11,7 @@ export default function BlogLayout() {
                         <img src="/logo.png" alt="Logo" className="w-8 h-8 object-contain" />
                         Nishan's Blog
                     </Link>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2">
                         <Link to="/">
                             <Button variant="ghost" size="sm" className="gap-2">
                                 <Home className="w-4 h-4" />

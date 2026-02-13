@@ -19,8 +19,9 @@ export default function LoginPage() {
         setIsLoading(true);
 
         // Simulate a slight delay for better UX
-        setTimeout(() => {
-            if (login(username, password)) {
+        setTimeout(async () => {
+            const success = await login(username, password);
+            if (success) {
                 navigate('/blog/admin');
             } else {
                 setError('Invalid credentials. Please try again.');

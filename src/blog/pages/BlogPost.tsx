@@ -15,12 +15,15 @@ export default function BlogPostPage() {
     const [post, setPost] = useState<BlogPost | null>(null);
 
     useEffect(() => {
-        if (id) {
-            const foundPost = getPostById(id);
-            if (foundPost) {
-                setPost(foundPost);
+        const fetchPost = async () => {
+            if (id) {
+                const foundPost = await getPostById(id);
+                if (foundPost) {
+                    setPost(foundPost);
+                }
             }
-        }
+        };
+        fetchPost();
     }, [id]);
 
     if (!post) {

@@ -33,8 +33,12 @@ export default function AdminDashboard() {
             navigate('/blog/login');
             return;
         }
-        setPosts(getPosts());
-        setDailyQuote(getQuote());
+        const loadData = async () => {
+            const [postsData, quoteData] = await Promise.all([getPosts(), getQuote()]);
+            setPosts(postsData);
+            setDailyQuote(quoteData);
+        };
+        loadData();
     }, [navigate]);
 
     const handleLogout = () => {
@@ -54,7 +58,7 @@ export default function AdminDashboard() {
         setIsCreating(true);
     };
 
-    const handleSavePost = (e: React.FormEvent) => {
+    const handleSavePost = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!newPost.title || !newPost.content) return;
 
@@ -66,28 +70,42 @@ export default function AdminDashboard() {
             imageUrl: newPost.imageUrl || '',
             author: 'Nishan Parajuli',
             date: editingPostId ? posts.find(p => p.id === editingPostId)?.date || new Date().toISOString() : new Date().toISOString(),
-            tags: typeof newPost.tags === 'string' ? (newPost.tags as string).split(',').map((t: string) => t.trim()) : newPost.tags
+            tags: typeof newPost.tags === 'string' ? (newPost.tags as string).split(',').map((t: string) => t.trim()) : newPost.tags || []
         };
 
-        savePost(post);
-        setPosts(getPosts());
-        setIsCreating(false);
-        setEditingPostId(null);
-        setNewPost({ title: '', excerpt: '', content: '', imageUrl: '', tags: [] });
-    };
-
-    const handleDeletePost = (id: string) => {
-        if (confirm('Are you sure you want to delete this post?')) {
-            deletePost(id);
-            setPosts(getPosts());
+        try {
+            await savePost(post);
+            const updatedPosts = await getPosts();
+            setPosts(updatedPosts);
+            setIsCreating(false);
+            setEditingPostId(null);
+            setNewPost({ title: '', excerpt: '', content: '', imageUrl: '', tags: [] });
+        } catch (error) {
+            alert('Failed to save post. Please check your connection.');
         }
     };
 
-    const handleSaveQuote = (e: React.FormEvent) => {
+    const handleDeletePost = async (id: string) => {
+        if (confirm('Are you sure you want to delete this post?')) {
+            try {
+                await deletePost(id);
+                const updatedPosts = await getPosts();
+                setPosts(updatedPosts);
+            } catch (error) {
+                alert('Failed to delete post.');
+            }
+        }
+    };
+
+    const handleSaveQuote = async (e: React.FormEvent) => {
         e.preventDefault();
-        saveQuote(dailyQuote);
-        setIsEditingQuote(false);
-        alert('Quote updated successfully!');
+        try {
+            await saveQuote(dailyQuote);
+            setIsEditingQuote(false);
+            alert('Quote updated successfully!');
+        } catch (error) {
+            alert('Failed to update quote.');
+        }
     };
 
     return (
@@ -315,7 +333,11 @@ export default function AdminDashboard() {
                                         />
                                     </div>
                                     <div className="flex items-center justify-end gap-2 pt-2">
-                                        <Button type="button" variant="ghost" onClick={() => { setIsEditingQuote(false); setDailyQuote(getQuote()); }} size="sm">
+                                        <Button type="button" variant="ghost" onClick={async () => {
+                                            setIsEditingQuote(false);
+                                            const currentQuote = await getQuote();
+                                            setDailyQuote(currentQuote);
+                                        }} size="sm">
                                             Cancel
                                         </Button>
                                         <Button type="submit" size="sm" className="font-bold rounded-xl px-6">
